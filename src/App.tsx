@@ -5,10 +5,12 @@ import Navbar from './components/nav/Navbar'
 import Footer from './components/footer/Footer'
 import Cadastro from './pages/cadastro/Cadastro'
 import Login from './pages/login/Login'
+import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
-    return (
-      <>
+  return (
+    <>
+      <AuthProvider>
         <BrowserRouter>
           <Navbar />
           <div className="min-h-[80vh]">
@@ -20,8 +22,9 @@ function App() {
           </div>
           <Footer />
         </BrowserRouter>
+      </AuthProvider>
     </>
-    )
+  )
 }
 
 export default App
