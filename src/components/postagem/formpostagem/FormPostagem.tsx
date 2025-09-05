@@ -5,6 +5,7 @@ import type Tema from "../../../models/Tema";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { atualizar, buscar, cadastrar } from "../../../services/Service";
 import type Postagem from "../../../models/Postagem";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 
 function FormPostagem() {
@@ -63,7 +64,7 @@ function FormPostagem() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado!')
+            ToastAlerta('Você precisa estar logado!', 'info')
             navigate('/')
         }
     }, [token])
@@ -106,13 +107,13 @@ function FormPostagem() {
                     headers: { Authorization: token },
                 });
 
-                alert('O Postagem foi atualizado com sucesso!')
+                ToastAlerta('O Postagem foi atualizado com sucesso!', 'sucesso')
 
             } catch (error: any) {
                 if (error.toString().includes('401')) {
                     handleLogout();
                 } else {
-                    alert('Erro ao atualizar o Postagem.')
+                    ToastAlerta('Erro ao atualizar o Postagem.', 'erro')
                 }
             }
         } else {
@@ -121,13 +122,13 @@ function FormPostagem() {
                     headers: { Authorization: token },
                 });
 
-                alert('O Postagem foi cadastrado com sucesso!')
+                ToastAlerta('A Postagem foi cadastrado com sucesso!', 'sucesso')
 
             } catch (error: any) {
                 if (error.toString().includes('401')) {
                     handleLogout();
                 } else {
-                    alert('Erro ao cadastrar o Postagem.')
+                    ToastAlerta('Erro ao cadastrar a Postagem.', 'erro')
                 }
             }
         }
@@ -190,14 +191,14 @@ function FormPostagem() {
                     type="submit"
                     className="rounded disabled:bg-slate-200 bg-indigo-400 hover:bg-indigo-800 
                         text-white font-bold w-1/2 mx-auto py-2 flex justify-center"
-                        disabled={carregandoTema}
+                    disabled={carregandoTema}
                 >
-                    { isLoading ?
-                            <PacmanLoader
-                                color="#ffffff"
-                                size={24}
-                            /> :
-                    <span>{id === undefined ? 'Cadastrar' : 'Atualizar'}</span>
+                    {isLoading ?
+                        <PacmanLoader
+                            color="#ffffff"
+                            size={24}
+                        /> :
+                        <span>{id === undefined ? 'Cadastrar' : 'Atualizar'}</span>
                     }
                 </button>
             </form>

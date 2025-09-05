@@ -5,6 +5,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import type Postagem from "../../../models/Postagem";
 import { buscar } from "../../../services/Service";
 import CardPostagem from "../cardpostagem/CardPostagem";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function ListaPostagens() {
 
@@ -19,13 +20,13 @@ function ListaPostagens() {
 
     useEffect(() => {
         if (token === '') {
-            alert('Você precisa estar logado!')
+            ToastAlerta('Você precisa estar logado!', 'erro')
             navigate('/')
         }
     }, [token])
 
     useEffect(() => {
-        buscarPostagens()    
+        buscarPostagens()
     }, [postagens.length])
 
     async function buscarPostagens() {
@@ -40,7 +41,7 @@ function ListaPostagens() {
             if (error.toString().includes('401')) {
                 handleLogout()
             }
-        }finally {
+        } finally {
             setIsLoading(false)
         }
     }
@@ -61,18 +62,18 @@ function ListaPostagens() {
                 <div className="container flex flex-col">
 
                     {(!isLoading && postagens.length === 0) && (
-                            <span className="text-3xl text-center my-8">
-                                Nenhuma Postagem foi encontrada!
-                            </span>
+                        <span className="text-3xl text-center my-8">
+                            Nenhuma Postagem foi encontrada!
+                        </span>
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 
                                     lg:grid-cols-3 gap-8">
-                            {
-                                postagens.map((postagem) => (
-                                    <CardPostagem key={postagem.id} postagem={postagem}/>
-                                ))
-                            }
+                        {
+                            postagens.map((postagem) => (
+                                <CardPostagem key={postagem.id} postagem={postagem} />
+                            ))
+                        }
                     </div>
                 </div>
             </div>
